@@ -3,7 +3,7 @@ import "./chatBox.css";
 
 function AIChatBox({ fileId }) {
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize your notes, explain difficult concept, and even create flash cards. How may I help you today?" }, //Begin conversation 
+    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize notes and explain difficult concept. How may I help you today?" }, //Begin conversation 
   ]);
   const [input, setInput] = useState(""); //Stores what user types 
   const [displayedMessages, setDisplayedMessages] = useState([]); //adds messages to list
