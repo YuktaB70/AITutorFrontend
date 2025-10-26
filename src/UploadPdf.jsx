@@ -18,7 +18,7 @@ function UploadPdf() {
             setFile(uploadedFile);  
 
             try{
-              const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
+              const response = await fetch("https://aitutor-shky.onrender.com/pdf/uploadpdf", {
                 method: "POST",
                 body: formData
               });
@@ -50,7 +50,7 @@ function UploadPdf() {
             setFile(uploadFile);
 
             try {
-                const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
+                const response = await fetch("https://aitutor-shky.onrender.com/pdf/uploadpdf", {
                     method: "POST",
                     body: formData
                 });

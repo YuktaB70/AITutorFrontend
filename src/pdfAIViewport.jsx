@@ -15,8 +15,8 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
-      const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
-      const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
+      const res = await fetch(`https://aitutor-shky.onrender.com/${FileId}/metadata`);
+      const response = await fetch(`https://aitutor-shky.onrender.com/${FileId}`);
       if (!response.ok) throw new Error("Failed to fetch PDF page");
       
       if(!res.ok) throw new Error("Failed to fetch metadata");
@@ -44,13 +44,13 @@ function AIPDFViewport({ FileId }) {
   }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
-    const response = await fetch(`http://localhost:8090/pdf/${FileId}/Next`);
+    const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/Next`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev + 1))
   }
   const handlePrevPage = async () => {
-    const response = await fetch(`http://localhost:8090/pdf/${FileId}/Prev`);
+    const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev - 1))

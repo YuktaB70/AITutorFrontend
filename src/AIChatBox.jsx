@@ -61,7 +61,7 @@ function AIChatBox({ fileId }) {
 
     //AI response, send an api to backend, with user input. 
     setTimeout(async () => {
-      const res = await fetch(`http://localhost:8090/pdf/${fileId}/QAs` , {
+      const res = await fetch(`https://aitutor-shky.onrender.com/pdf/${fileId}/QAs` , {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: input
