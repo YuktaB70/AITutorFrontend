@@ -1,0 +1,112 @@
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    background: #eee2d6;
+    overflow: hidden;
+    margin-top: 40px;
+
+  }
+  
+  .chat-box ::-webkit-scrollbar {
+    display: hidden;
+  }
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #eedac6;
+    margin: 10px;
+    border-radius: 15px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+  
+  .chat-messages::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+  .chat-message {
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInMessage 0.4s ease forwards;
+  }
+  
+  @keyframes fadeInMessage {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .chat-message.user {
+    background: #5e646b;
+    color: white;
+    align-self: flex-end;
+  }
+  
+  .chat-message.ai {
+    background: #e6e6e6;
+    color: black;
+    align-self: flex-start;
+  }
+  
+  .chat-input {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    margin: 10px;
+    margin-top: 0;
+    height: 50px;
+
+  }
+
+  
+  .chat-input input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    transition: all 0.2s ease;
+    outline: none;
+    margin: 2px;
+  }
+  
+  .chat-input input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 2px rgba(0, 120, 255, 0.2);
+    border-color: #0078ff;
+  }
+  
+  .chat-input button {
+    background: #757575;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    margin: 5px;
+  }
+  
+  .chat-input button:hover {
+    transform: scale(1.05);
+    background: #0056b3;
+    box-shadow: 0 2px 8px rgba(0, 120, 255, 0.3);
+  }
+  
+  .chat-input button:active {
+    transform: scale(0.95);
+  }
+  
