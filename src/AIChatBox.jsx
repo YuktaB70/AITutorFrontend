@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import "./chatBox.css";
+import "./ChatBox.css";
 
 function AIChatBox({ fileId }) {
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize notes and explain difficult concept. How may I help you today?" }, //Begin conversation 
+    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize notes and explain difficult concept.b How may I help you today?" }, //Begin conversation 
   ]);
   const [input, setInput] = useState(""); //Stores what user types 
   const [displayedMessages, setDisplayedMessages] = useState([]); //adds messages to list
