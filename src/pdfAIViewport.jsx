@@ -15,8 +15,8 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
-      const res = await fetch(`https://aitutor-shky.onrender.com/${FileId}/metadata`);
-      const response = await fetch(`https://aitutor-shky.onrender.com/${FileId}`);
+      const res = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/metadata`);
+      const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}`);
       if (!response.ok) throw new Error("Failed to fetch PDF page");
       
       if(!res.ok) throw new Error("Failed to fetch metadata");
