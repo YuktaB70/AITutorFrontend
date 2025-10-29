@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <p>EduTutor.ai</p>
+        <p>EduTutor AI</p>
       </header>
       <Routes>
         <Route path="/" element={<UploadPdf />} />

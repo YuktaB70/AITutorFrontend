@@ -110,3 +110,24 @@
 
 
 
+.cardBtn {
+  background-color: white;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  border-radius: 100px;
+  justify-content: center;
+  align-items:  center;
+  border: dashed #edccab 5px;
+  transition: all 0.2s ease;
+
+}
+
+.cardBtn:hover {
+  border: dashed #edccab 5px;
+  transform: scale(1.05);
+
+}
+

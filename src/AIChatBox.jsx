@@ -3,7 +3,7 @@ import "./ChatBox.css";
 
 function AIChatBox({ fileId }) {
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize notes and explain difficult concept.b How may I help you today?" }, //Begin conversation 
+    { sender: "ai", text: "Hello, I am your AI tutor. I can summarize notes and explain difficult concept. How may I help you today?" }, //Begin conversation 
   ]);
   const [input, setInput] = useState(""); //Stores what user types 
   const [displayedMessages, setDisplayedMessages] = useState([]); //adds messages to list
@@ -12,7 +12,8 @@ function AIChatBox({ fileId }) {
   // Function to scroll to bottom of chat
   const scrollToBottom = () => {
     setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight; // scroll to show user message
+
     }, 100);
   };
 
@@ -23,7 +24,9 @@ function AIChatBox({ fileId }) {
 
     if (lastMessage.sender === "user") { //user message
       setDisplayedMessages([...messages]); //immediately display messages
-      scrollToBottom(); // scroll to show user message
+      if(messages.length > 1) {
+        scrollToBottom(); // scroll to show user message
+      }
       return;
     }
 
@@ -37,8 +40,9 @@ function AIChatBox({ fileId }) {
           return updated;
         });
 
-        scrollToBottom();
-
+        if(messages.length > 1) {
+          scrollToBottom(); // scroll to show user message
+        }
         index++;
         if (index >= lastMessage.text.length) clearInterval(interval);
       }, 25);
@@ -49,8 +53,10 @@ function AIChatBox({ fileId }) {
 
    // Scroll to bottom whenever displayed messages change
    useEffect(() => {
-     scrollToBottom();
-   }, [displayedMessages]);
+    if(messages.length > 1) {
+      scrollToBottom(); // scroll to show user message
+    }
+    }, [displayedMessages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return; //check if user typed anything
@@ -80,14 +86,16 @@ function AIChatBox({ fileId }) {
 
   return (
     <div className="chat-box">
-        <div className="chat-messages">
+      <div className="chat-messages">
+        <div className="chat-wrapper" ref={messagesEndRef}>
           {displayedMessages.map((msg, index) => (
             <div key={index} className={`chat-message ${msg.sender}`}>
               {msg.text}
             </div>
           ))}
-          <div ref={messagesEndRef} />
         </div>
+      </div>
+ 
 
       <div className="chat-input">
         <input

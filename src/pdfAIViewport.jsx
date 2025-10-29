@@ -4,6 +4,9 @@ import * as pdfjsLib from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 import { Rnd } from "react-rnd";
 import AIChatBox from "./AIChatBox";
+
+import questionIcon from "./assets/icons8-question-60.png";
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 function AIPDFViewport({ FileId }) {
@@ -59,7 +62,7 @@ function AIPDFViewport({ FileId }) {
     <div className="pdf-viewport-container">
 
 
-        <div className="pdf-main">
+      <div className="pdf-main">
     
           <div className="pdf-viewport" ref={containerRef}> 
 
@@ -84,6 +87,10 @@ function AIPDFViewport({ FileId }) {
                 Next →
               </button>
           </div>
+          <button className="cardBtn">
+            <img src={questionIcon} alt="flashCard" style={{ width: 50, height: 50 }}/>
+          </button>
+
           <div className="pdf-wrapper">
               <canvas className="pdf-canvas" ref={canvasRef} />
           </div>
@@ -92,6 +99,8 @@ function AIPDFViewport({ FileId }) {
           <div className="chat-box-container">
               <AIChatBox fileId={FileId}/>
           </div>
+
+
 
       </div>
     </div>
