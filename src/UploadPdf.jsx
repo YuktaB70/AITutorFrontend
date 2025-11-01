@@ -18,7 +18,7 @@ function UploadPdf() {
             setFile(uploadedFile);  
 
             try{
-              const response = await fetch("https://aitutor-shky.onrender.com/pdf/uploadpdf", {
+              const response = await fetch("https://aitutor-production-cb21.up.railway.app/pdf/uploadpdf", {
                 method: "POST",
                 body: formData
               });
@@ -50,7 +50,7 @@ function UploadPdf() {
             setFile(uploadFile);
 
             try {
-                const response = await fetch("https://aitutor-shky.onrender.com/pdf/uploadpdf", {
+                const response = await fetch("https://aitutor-production-cb21.up.railway.app/pdf/uploadpdf", {
                     method: "POST",
                     body: formData
                 });
@@ -61,7 +61,7 @@ function UploadPdf() {
                     setId(data.fileId);
                 }
             }
-            catch(error) {
+            catch(error) {  
                 console.error(error);
             }
         }
