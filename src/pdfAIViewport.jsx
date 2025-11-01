@@ -4,7 +4,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 import { Rnd } from "react-rnd";
 import AIChatBox from "./AIChatBox";
-
+import FlashCard  from "./FlashCard";
 import questionIcon from "./assets/icons8-question-60.png";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -12,14 +12,15 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 function AIPDFViewport({ FileId }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [showFlashCard, setFlashCard]  = useState(false);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
-      const res = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/metadata`);
-      const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}`);
+      const res = await fetch(`/pdf/${FileId}/metadata`);
+      const response = await fetch(`/pdf/${FileId}`);
       if (!response.ok) throw new Error("Failed to fetch PDF page");
       
       if(!res.ok) throw new Error("Failed to fetch metadata");
@@ -47,16 +48,20 @@ function AIPDFViewport({ FileId }) {
   }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
-    const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/Next`);
+    const response = await fetch(`/pdf/${FileId}/Next`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev + 1))
   }
   const handlePrevPage = async () => {
-    const response = await fetch(`https://aitutor-shky.onrender.com/pdf/${FileId}/Prev`);
+    const response = await fetch(`/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev - 1))
+  }
+
+  const handleFlashCardGen = async () => {
+    setFlashCard(true);
   }
   return (
     <div className="pdf-viewport-container">
@@ -87,7 +92,7 @@ function AIPDFViewport({ FileId }) {
                 Next →
               </button>
           </div>
-          <button className="cardBtn">
+          <button className="cardBtn" onClick={handleFlashCardGen}>
             <img src={questionIcon} alt="flashCard" style={{ width: 50, height: 50 }}/>
           </button>
 
@@ -100,7 +105,8 @@ function AIPDFViewport({ FileId }) {
               <AIChatBox fileId={FileId}/>
           </div>
 
-
+          {showFlashCard && <FlashCard/>}
+ 
 
       </div>
     </div>
