@@ -21,6 +21,10 @@ function AIPDFViewport({ FileId }) {
     const loadPdf = async () => {
       const res = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${FileId}/metadata`);
       const response = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${FileId}`);
+
+      // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
+      // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
+
       if (!response.ok) throw new Error("Failed to fetch PDF page");
       
       if(!res.ok) throw new Error("Failed to fetch metadata");
@@ -48,14 +52,17 @@ function AIPDFViewport({ FileId }) {
   }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
-    
     const response = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${FileId}/Next`);
+
+    // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Next`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev + 1))
   }
   const handlePrevPage = async () => {
     const response = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${FileId}/Prev`);
+
+    // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev - 1))
@@ -63,6 +70,10 @@ function AIPDFViewport({ FileId }) {
 
   const handleFlashCardGen = async () => {
     setFlashCard(true);
+  }
+  
+  const handleOnDeleteFlashCard = () => {
+    setFlashCard(false);
   }
   return (
     <div className="pdf-viewport-container">
@@ -106,7 +117,7 @@ function AIPDFViewport({ FileId }) {
               <AIChatBox fileId={FileId}/>
           </div>
 
-          {showFlashCard && <FlashCard/>}
+          {showFlashCard && <FlashCard onDelete={handleOnDeleteFlashCard} fileId={FileId}/>}
  
 
       </div>

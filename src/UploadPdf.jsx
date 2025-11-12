@@ -22,6 +22,10 @@ function UploadPdf() {
                 method: "POST",
                 body: formData
               });
+              // const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
+              //   method: "POST",
+              //   body: formData
+              // });
               
               if (!response.ok) throw new Error("PDF failed to upload");
               const data = await response.json();
@@ -50,10 +54,15 @@ function UploadPdf() {
             setFile(uploadFile);
 
             try {
-                const response = await fetch("https://aitutor-production-cb21.up.railway.app/pdf/uploadpdf", {
-                    method: "POST",
-                    body: formData
-                });
+              
+              const response = await fetch("https://aitutor-production-cb21.up.railway.app/pdf/uploadpdf", {
+                method: "POST",
+                body: formData
+              });
+                // const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
+                //     method: "POST",
+                //     body: formData
+                // });
                 
                 if (!response.ok) throw new Error("PDF failed to upload");
                 const data = await response.json();

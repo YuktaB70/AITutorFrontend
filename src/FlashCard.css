@@ -5,10 +5,16 @@
     transform: translate(-50%, -50%);
     background-color: white;
     width: 80%;
-    height: 90%;
+    height: 700px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    border-radius: 8px;
+    border-radius: 15px;
     z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1002;
   }
   
 
@@ -19,24 +25,179 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: green;
+    background-color: #55473b;
+    border-radius: 15px 15px 0 0;
+
 }
 
 .header p {
-    padding: 10px;
+    padding: 20px;
+    font-size: 25px;
 }
 
 .header span {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px; /* increased from 50px */
-    height: 60px; /* increased from 50px */
-  
-    color: black;
+    width: 70px;
+    height: 70px;
+    color: rgb(255, 255, 255);
     border-radius: 50%;
     cursor: pointer;
     font-weight: bold;
     font-size: 28px; /* slightly larger text */
 
 }
+
+
+.flashcard-container {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-between;
+    height: calc(650px - 75px);
+    max-height: calc(650px - 75px);
+    box-sizing: border-box;
+    overflow: hidden;
+    flex: 1;
+}
+
+
+.question-container {
+    width: 100%;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.question-container p {
+    color: black;
+    font-size: 25px;
+}
+
+.option-container {
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    overflow-y: hidden;
+}
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    color: black;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default radio button */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Create a custom radio button */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the radio button is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the indicator (dot/circle) when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the indicator (dot/circle) */
+  .container .checkmark:after {
+       top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+  }
+
+
+.answer-container {
+  width: 100%;
+  height: auto;
+}
+
+
+.answer-container p {
+  color: black;
+  font-size: 20px;
+
+}
+
+
+  .button-container {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    margin-top: auto;
+    flex-shrink: 0;
+    justify-content: space-between;
+  }
+
+  .submitBtn {
+    left: 50%;
+    width: 100px;
+    height: 50px;
+    background-color: #55473b;
+    border-radius: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .nextBtn {
+    width: 100px;
+    height: 50px;
+    background-color: #55473b;
+    border-radius: 15px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .submitBtn:hover,
+  .nextBtn:hover {
+    background-color: #3d332a;
+  }
