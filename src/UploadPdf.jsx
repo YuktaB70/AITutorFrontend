@@ -84,7 +84,10 @@ return (
       {!file ? (
         // Upload Page
         <div className="upload-container">
-          <div className="Title">Upload File</div>
+
+          <div className="Title">Streamline Your Learning with an AI-Powered Tutor</div>
+          <div className="Header">Upload your PDFs and let our AI tutor guide you</div>
+
           <div
             className="upload-box"
             onDragOver={(e) => e.preventDefault()}

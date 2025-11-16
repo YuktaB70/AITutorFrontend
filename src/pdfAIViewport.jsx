@@ -76,6 +76,10 @@ function AIPDFViewport({ FileId }) {
     setFlashCard(false);
   }
   return (
+    <div>
+    {totalPages ? (
+
+    
     <div className="pdf-viewport-container">
 
 
@@ -121,6 +125,14 @@ function AIPDFViewport({ FileId }) {
  
 
       </div>
+    </div>
+    ) : (
+      <div className="loading-spinner-container">
+        <p>Loading</p>
+        <div className="loading-spinner"></div>
+      </div>
+
+    )}
     </div>
   );
 }
@@ -184,7 +196,6 @@ async function renderPage(page, containerRef, canvasRef) {
     canvas.style.width = viewport.width + 'px';
     canvas.style.height = (viewport.height + 50) + 'px';
 
-    // Clear canvas before rendering
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     await page.render({

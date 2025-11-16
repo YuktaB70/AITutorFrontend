@@ -1,0 +1,28 @@
+
+.loading-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Optional: Center the spinner on the page */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    z-index: 9999; /* Ensure it's on top of other content */
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3; /* Light grey border */
+    border-top: 5px solid #55473b; /* Blue top border for the "filling" effect */
+    border-radius: 50%; /* Makes it a circle */
+    animation: spin 1s linear infinite; /* Apply the spinning animation */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
