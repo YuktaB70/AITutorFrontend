@@ -6,7 +6,7 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-
+const apiUrl = "localhost:8090";
 function UploadPdf() {
     const [file, setFile] = useState(null);
     const [fileId, setId] = useState(null);
@@ -18,14 +18,14 @@ function UploadPdf() {
             setFile(uploadedFile);  
 
             try{
-              const response = await fetch("http://3.236.8.71:8090/pdf/uploadpdf", {
+            //     const response = await fetch("http://3.236.8.71:8090/pdf/uploadpdf", {
+            //     method: "POST",
+            //     body: formData
+            //   });
+              const response = await fetch(`http://${apiUrl}/pdf/uploadpdf`, {
                 method: "POST",
                 body: formData
               });
-              // const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
-              //   method: "POST",
-              //   body: formData
-              // });
               
               if (!response.ok) throw new Error("PDF failed to upload");
               const data = await response.json();
@@ -55,14 +55,14 @@ function UploadPdf() {
 
             try {
               
-              const response = await fetch("http://3.236.8.71:8090/pdf/uploadpdf", {
-                method: "POST",
-                body: formData
-              });
-                // const response = await fetch("http://localhost:8090/pdf/uploadpdf", {
-                //     method: "POST",
-                //     body: formData
-                // });
+              // const response = await fetch("http://3.236.8.71:8090/pdf/uploadpdf", {
+              //   method: "POST",
+              //   body: formData
+              // });
+                const response = await fetch(`http://${apiUrl}/pdf/uploadpdf`, {
+                    method: "POST",
+                    body: formData
+                });
                 
                 if (!response.ok) throw new Error("PDF failed to upload");
                 const data = await response.json();

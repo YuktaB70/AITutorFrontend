@@ -1,59 +1,82 @@
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background: radial-gradient(circle at top, #1e293b, #0f172a);
   overflow: hidden;
+  font-family: Inter, system-ui, sans-serif;
 }
+
+/* Main app container */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+  background: transparent;
+  color: #e5e7eb;
 }
 
+/* Header bar */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #e5d2c0;
-  color:  #55473b;
-  padding-left:15px;
-  padding-right:15px;
-  height: 60px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 100%;
+  height: 64px;
+  padding: 0 20px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(10px);
+  color: #f8fafc;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-bottom: 1px solid #1e293b;
   box-sizing: border-box;
-  
 }
 
+/* Actions row */
 .actions-row {
   display: flex;
   justify-content: center;
-  gap: 60px;
-  margin: 50px 0 30px 0;
+  gap: 48px;
+  margin: 60px 0 40px;
   flex-wrap: wrap;
 }
 
+/* Action buttons (cards) */
 .action-btn {
-  padding: 20px 40px;
-  width: 300px;
-  height:200px;
-  background-color: #e5d2c0;
-  color: #55473b;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  width: 320px;
+  height: 200px;
+  padding: 24px;
+  background: linear-gradient(145deg, #111827, #0b1220);
+  color: #e5e7eb;
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  font-size: 1.15rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
+/* Hover effect */
 .action-btn:hover {
-  background-color: #e4c9b0;
+  transform: translateY(-6px);
+  border-color: #2563eb;
+  box-shadow: 0 25px 60px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(145deg, #0b1220, #020617);
 }
 
+/* Optional: icon inside button */
+.action-btn svg {
+  margin-bottom: 10px;
+  font-size: 2rem;
+  color: #6366f1;
+}

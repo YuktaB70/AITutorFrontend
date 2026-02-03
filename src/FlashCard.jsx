@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./FlashCard.css";
 
+const apiUrl = "localhost:8090";
+
 function FlashCard({ onDelete, fileId }) {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [questions, setQuestions] = useState([]);
@@ -10,7 +12,7 @@ function FlashCard({ onDelete, fileId }) {
     useEffect(() => {
       const genQA = async () => {
         try {
-          const response = await fetch(`http://3.236.8.71:8090/pdf/${fileId}/GenQA`);
+          const response = await fetch(`http://${apiUrl}/pdf/${fileId}/GenQA`);
           if (!response.ok) throw new Error("Failed to generate questions");
   
           const data = await response.json(); 
