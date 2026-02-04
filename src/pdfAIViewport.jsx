@@ -19,8 +19,8 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
-      const res = await fetch(`http://${apiUrl}/pdf/${FileId}/metadata`);
-      const response = await fetch(`http://${apiUrl}/pdf/${FileId}`);
+      const res = await fetch(`https://${apiUrl}/pdf/${FileId}/metadata`);
+      const response = await fetch(`https://${apiUrl}/pdf/${FileId}`);
       
       // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
       // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
@@ -40,16 +40,16 @@ function AIPDFViewport({ FileId }) {
   }, [FileId]);
 
 
-  useEffect(() => {
-    if (!containerRef.current || currentPage === 0) return;
+  // useEffect(() => {
+  //   if (!containerRef.current || currentPage === 0) return;
     
-    // Add a small delay to ensure container has proper dimensions
-    const timer = setTimeout(() => {
-      loadPage(FileId, currentPage, containerRef, canvasRef);
-    }, 100);
+  //   // Add a small delay to ensure container has proper dimensions
+  //   const timer = setTimeout(() => {
+  //     loadPage(FileId, currentPage, containerRef, canvasRef);
+  //   }, 100);
     
-    return () => clearTimeout(timer);
-  }, [currentPage, FileId]);
+  //   return () => clearTimeout(timer);
+  // }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
     const response = await fetch(`https://${apiUrl}/pdf/${FileId}/Next`);
@@ -61,7 +61,6 @@ function AIPDFViewport({ FileId }) {
   }
   const handlePrevPage = async () => {
     const response = await fetch(`https://${apiUrl}/pdf/${FileId}/Prev`);
-
     // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
     await loadPage(response, FileId, 1, containerRef, canvasRef);
@@ -121,7 +120,7 @@ function AIPDFViewport({ FileId }) {
               <AIChatBox fileId={FileId}/>
           </div>
 
-          {showFlashCard && <FlashCard onDelete={handleOnDeleteFlashCard} fileId={FileId}/>}
+          {/* {showFlashCard && <FlashCard onDelete={handleOnDeleteFlashCard} fileId={FileId}/>} */}
  
 
       </div>
