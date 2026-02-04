@@ -23,9 +23,9 @@ function AIPDFViewport({ FileId }) {
         const res = await fetch(`${apiUrl}/pdf/${FileId}/metadata`);
         if (!res.ok) throw new Error("Failed to fetch metadata");
 
-        const numPages = await res.json();
-        setTotalPages(numPages.pageNumber);
-        console.log("Total pages:", numPages.pageNumber);
+        const data = await res.json();
+        setTotalPages(data.PageNumber);
+        console.log("Total pages:", data.PageNumber);
         setCurrentPage(1);
       } catch (e) {
         console.error(e);
