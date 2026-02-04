@@ -5,7 +5,6 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 import { Rnd } from "react-rnd";
 import AIChatBox from "./AIChatBox";
 import FlashCard  from "./FlashCard";
-// import questionIcon from "./assets/icons8-question-60.png";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 const apiUrl = "https://aitutor-backend-pdf.onrender.com";
@@ -16,7 +15,6 @@ function AIPDFViewport({ FileId }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
-  // ✅ metadata triggers UI switch immediately
   useEffect(() => {
     if (!FileId) return;
 
@@ -27,6 +25,7 @@ function AIPDFViewport({ FileId }) {
 
         const numPages = await res.text();
         setTotalPages(parseInt(numPages, 10));
+        console.log("Total pages:", numPages);
         setCurrentPage(1);
       } catch (e) {
         console.error(e);
@@ -36,7 +35,6 @@ function AIPDFViewport({ FileId }) {
     loadMetadata();
   }, [FileId]);
 
-  // ✅ fetch PDF data
   useEffect(() => {
     if (!FileId) return;
 
@@ -54,7 +52,6 @@ function AIPDFViewport({ FileId }) {
     loadPdf();
   }, [FileId]);
 
-  // ✅ reload when page changes (waits for layout)
   useEffect(() => {
     if (!FileId || currentPage === 0) return;
 
@@ -143,7 +140,6 @@ async function loadPage(response, FileId, pageNumber, containerRef, canvasRef) {
   }
 }
 
-// ✅ only change: wait until layout exists instead of erroring
 async function renderPage(page, containerRef, canvasRef, attempts = 0) {
   try {
     if (!containerRef.current || !canvasRef.current) {
