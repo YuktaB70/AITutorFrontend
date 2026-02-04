@@ -66,22 +66,22 @@ function AIChatBox({ fileId }) {
     setInput(""); //reset input
 
     //AI response, send an api to backend, with user input. 
-    setTimeout(async () => {
-      const res = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${fileId}/QAs` , {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: input
+    // setTimeout(async () => {
+    //   const res = await fetch(`https://aitutor-production-cb21.up.railway.app/pdf/${fileId}/QAs` , {
+    //     method: "POST",
+    //     headers: {"Content-Type": "application/json"},
+    //     body: input
 
-      })
-      if (!res.ok) throw new Error("Failed to retrieve AI response");
-      const aiResponse = await res.text();
-      if(aiResponse) {
-        setMessages((prev) => [...prev, { sender: "ai", text: aiResponse }]);
-      }
+    //   })
+    //   if (!res.ok) throw new Error("Failed to retrieve AI response");
+    //   const aiResponse = await res.text();
+    //   if(aiResponse) {
+    //     setMessages((prev) => [...prev, { sender: "ai", text: aiResponse }]);
+    //   }
 
 
 
-    }, 1000);
+    // }, 1000);
   };
 
   return (
