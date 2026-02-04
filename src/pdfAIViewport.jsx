@@ -8,7 +8,7 @@ import FlashCard  from "./FlashCard";
 // import questionIcon from "./assets/icons8-question-60.png";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-const apiUrl = "aitutor-backend-pdf.onrender.com";
+const apiUrl = "https://aitutor-backend-pdf.onrender.com/";
 function AIPDFViewport({ FileId }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
