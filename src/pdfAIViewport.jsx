@@ -18,21 +18,29 @@ function AIPDFViewport({ FileId }) {
 
   useEffect(() => {
     if (!FileId) return;
-    const loadPdf = async () => {
+    const loadMetadata = async () => {
       const res = await fetch(`${apiUrl}/pdf/${FileId}/metadata`);
+      if(!res.ok) throw new Error("Failed to fetch metadata");
+      
+      const numPages = await res.text(); 
+      setTotalPages(parseInt(numPages, 10));
+      setCurrentPage(1);
+
+    }
+    loadMetadata();
+
+  }, [FileId]);
+
+  useEffect(() => {
+    if (!FileId) return;
+    const loadPdf = async () => {
       const response = await fetch(`${apiUrl}/pdf/${FileId}`);
       
       // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
       // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
 
       if (!response.ok) throw new Error("Failed to fetch PDF page");
-      
-      if(!res.ok) throw new Error("Failed to fetch metadata");
-      
-      const numPages = await res.text(); 
-      setTotalPages(parseInt(numPages, 10));
-      setCurrentPage(1);
-      
+            
       // Load the first page directly
       await loadPage(response, FileId, 1, containerRef, canvasRef);
     }
