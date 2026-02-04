@@ -19,8 +19,8 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
-      const res = await fetch(`http://${apiUrl}/pdf/${FileId}/metadata`);
-      const response = await fetch(`http://${apiUrl}/pdf/${FileId}`);
+      const res = await fetch(`https://${apiUrl}/pdf/${FileId}/metadata`);
+      const response = await fetch(`https://${apiUrl}/pdf/${FileId}`);
       
       // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
       // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
