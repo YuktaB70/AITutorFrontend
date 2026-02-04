@@ -9,192 +9,164 @@ import FlashCard  from "./FlashCard";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 const apiUrl = "https://aitutor-backend-pdf.onrender.com";
+
 function AIPDFViewport({ FileId }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  // const [showFlashCard, setFlashCard]  = useState(false);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
+  // ✅ metadata triggers UI switch immediately
   useEffect(() => {
     if (!FileId) return;
+
     const loadMetadata = async () => {
       try {
-      const res = await fetch(`${apiUrl}/pdf/${FileId}/metadata`);
-      if(!res.ok) throw new Error("Failed to fetch metadata");
-      
-      const numPages = await res.text(); 
-      setTotalPages(parseInt(numPages, 10));
-      setCurrentPage(1);
-      }
-      catch (e) {
+        const res = await fetch(`${apiUrl}/pdf/${FileId}/metadata`);
+        if (!res.ok) throw new Error("Failed to fetch metadata");
+
+        const numPages = await res.text();
+        setTotalPages(parseInt(numPages, 10));
+        setCurrentPage(1);
+      } catch (e) {
         console.error(e);
       }
+    };
 
-    }
     loadMetadata();
-
   }, [FileId]);
 
+  // ✅ fetch PDF data
   useEffect(() => {
     if (!FileId) return;
+
     const loadPdf = async () => {
       try {
-      const response = await fetch(`${apiUrl}/pdf/${FileId}`);
-      
-      // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
-      // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
+        const response = await fetch(`${apiUrl}/pdf/${FileId}`);
+        if (!response.ok) throw new Error("Failed to fetch PDF page");
 
-      if (!response.ok) throw new Error("Failed to fetch PDF page");
-            
-      // Load the first page directly
-      await loadPage(response, FileId, 1, containerRef, canvasRef);
-
-      }
-      catch (e) {
+        await loadPage(response, FileId, 1, containerRef, canvasRef);
+      } catch (e) {
         console.error(e);
       }
-    }
+    };
+
     loadPdf();
   }, [FileId]);
 
-
+  // ✅ reload when page changes (waits for layout)
   useEffect(() => {
     if (!FileId || currentPage === 0) return;
-    
-    // Add a small delay to ensure container has proper dimensions
+
     const timer = setTimeout(async () => {
       const response = await fetch(`${apiUrl}/pdf/${FileId}`);
       loadPage(response, FileId, currentPage, containerRef, canvasRef);
-    }, 50);
-    
+    }, 50); // slightly faster
+
     return () => clearTimeout(timer);
   }, [currentPage, FileId]);
-  
+
   const handleNextPage = async () => {
-    const response = await fetch(`${apiUrl}/pdf/${FileId}/Next`);
+    await fetch(`${apiUrl}/pdf/${FileId}/Next`);
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1)); // ✅ clamp
+  };
 
-    if (!response.ok) throw new Error("Failed to fetch PDF page");
-    // await loadPage(response, FileId, 1, containerRef, canvasRef);
-    setCurrentPage(prev => Math.max(1, prev + 1))
-  }
   const handlePrevPage = async () => {
-    const response = await fetch(`${apiUrl}/pdf/${FileId}/Prev`);
-    if (!response.ok) throw new Error("Failed to fetch PDF page");
-    // await loadPage(response, FileId, 1, containerRef, canvasRef);
-    setCurrentPage(prev => Math.max(1, prev - 1))
-  }
+    await fetch(`${apiUrl}/pdf/${FileId}/Prev`);
+    setCurrentPage((prev) => Math.max(1, prev - 1)); // ✅ clamp
+  };
 
-  // const handleFlashCardGen = async () => {
-  //   setFlashCard(true);
-  // }
-  
-  // const handleOnDeleteFlashCard = () => {
-  //   setFlashCard(false);
-  // }
   return (
     <div>
-    {totalPages ? (
+      {totalPages ? (
+        <div className="pdf-viewport-container">
+          <div className="pdf-main">
+            <div className="pdf-viewport" ref={containerRef}>
+              <div className="pdf-navigation">
+                <button
+                  className="nav-button prev-button"
+                  onClick={handlePrevPage}
+                  disabled={currentPage <= 1}
+                >
+                  ← Previous
+                </button>
 
-    
-    <div className="pdf-viewport-container">
+                <div className="page-indicator">
+                  Page {currentPage} of {totalPages}
+                </div>
 
-
-      <div className="pdf-main">
-    
-          <div className="pdf-viewport" ref={containerRef}> 
-
-          <div className="pdf-navigation">
-              <button 
-                className="nav-button prev-button"
-                onClick={handlePrevPage}
-                disabled={currentPage <= 1}
-              >
-                ← Previous
-              </button>
-              
-              <div className="page-indicator">
-                Page {currentPage} of {totalPages}
+                <button
+                  className="nav-button next-button"
+                  onClick={handleNextPage}
+                  disabled={currentPage >= totalPages}
+                >
+                  Next →
+                </button>
               </div>
-              
-              <button 
-                className="nav-button next-button"
-                onClick={handleNextPage}
-                disabled={currentPage >= totalPages}
-              >
-                Next →
-              </button>
+
+              <div className="pdf-wrapper">
+                <canvas className="pdf-canvas" ref={canvasRef} />
+              </div>
+            </div>
+
+            <div className="chat-box-container">
+              <AIChatBox fileId={FileId} />
+            </div>
           </div>
-          {/* <button className="cardBtn" onClick={handleFlashCardGen}>
-            <img src={questionIcon} alt="flashCard" style={{ width: 50, height: 50 }}/>
-          </button> */}
-
-          <div className="pdf-wrapper">
-              <canvas className="pdf-canvas" ref={canvasRef} />
-          </div>
-          </div>
-
-          <div className="chat-box-container">
-              <AIChatBox fileId={FileId}/>
-          </div>
-
-          {/* {showFlashCard && <FlashCard onDelete={handleOnDeleteFlashCard} fileId={FileId}/>} */}
- 
-
-      </div>
-    </div>
-    ) : (
-      <div className="loading-spinner-container">
-        <p>Loading</p>
-        <div className="loading-spinner"></div>
-      </div>
-
-    )}
+        </div>
+      ) : (
+        <div className="loading-spinner-container">
+          <p>Loading</p>
+          <div className="loading-spinner"></div>
+        </div>
+      )}
     </div>
   );
 }
 
-
-
-
-
-
 async function loadPage(response, FileId, pageNumber, containerRef, canvasRef) {
   try {
-  
     const base64 = await response.text();
     const binaryString = atob(base64);
     const bytes = new Uint8Array(binaryString.length);
+
     for (let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i);
     }
-    
+
     const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
-    const page = await pdf.getPage(pageNumber);
-    
+    const page = await pdf.getPage(pageNumber); // ✅ FIXED: use pageNumber
+
     await renderPage(page, containerRef, canvasRef);
-  }
-  catch(error) {
+  } catch (error) {
     console.error("Error loading page:", error);
   }
 }
 
-
-async function renderPage(page, containerRef, canvasRef) {
+// ✅ only change: wait until layout exists instead of erroring
+async function renderPage(page, containerRef, canvasRef, attempts = 0) {
   try {
     if (!containerRef.current || !canvasRef.current) {
-      console.error("Container or canvas ref not available");
+      if (attempts < 30) {
+        requestAnimationFrame(() =>
+          renderPage(page, containerRef, canvasRef, attempts + 1)
+        );
+      }
       return;
     }
 
     const containerX = containerRef.current.clientWidth;
     const containerY = containerRef.current.clientHeight;
-    
+
     if (containerX === 0 || containerY === 0) {
-      console.error("Container has no dimensions");
+      if (attempts < 30) {
+        requestAnimationFrame(() =>
+          renderPage(page, containerRef, canvasRef, attempts + 1)
+        );
+      }
       return;
     }
-    //Setting up canvas
+
     const PRINT_RESOLUTION = 250;
     const PRINT_UNITS = PRINT_RESOLUTION / 72.0;
 
@@ -207,17 +179,17 @@ async function renderPage(page, containerRef, canvasRef) {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
-    const bottomMargin = 50 * PRINT_UNITS; 
+    const bottomMargin = 50 * PRINT_UNITS;
     canvas.width = Math.floor(viewport.width * PRINT_UNITS);
     canvas.height = Math.floor(viewport.height * PRINT_UNITS) + bottomMargin;
-    canvas.style.width = viewport.width + 'px';
-    canvas.style.height = (viewport.height + 50) + 'px';
+    canvas.style.width = viewport.width + "px";
+    canvas.style.height = viewport.height + 50 + "px";
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     await page.render({
       canvasContext: context,
-      viewport: viewport,
+      viewport,
       transform: [PRINT_UNITS, 0, 0, PRINT_UNITS, 0, 0],
     }).promise;
 
@@ -226,8 +198,5 @@ async function renderPage(page, containerRef, canvasRef) {
     console.error("Error rendering PDF page:", error);
   }
 }
-
-
-
 
 export default AIPDFViewport;
