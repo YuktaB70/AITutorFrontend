@@ -19,12 +19,17 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadMetadata = async () => {
+      try {
       const res = await fetch(`${apiUrl}/pdf/${FileId}/metadata`);
       if(!res.ok) throw new Error("Failed to fetch metadata");
       
       const numPages = await res.text(); 
       setTotalPages(parseInt(numPages, 10));
       setCurrentPage(1);
+      }
+      catch (e) {
+        console.error(e);
+      }
 
     }
     loadMetadata();
@@ -34,6 +39,7 @@ function AIPDFViewport({ FileId }) {
   useEffect(() => {
     if (!FileId) return;
     const loadPdf = async () => {
+      try {
       const response = await fetch(`${apiUrl}/pdf/${FileId}`);
       
       // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
@@ -43,19 +49,24 @@ function AIPDFViewport({ FileId }) {
             
       // Load the first page directly
       await loadPage(response, FileId, 1, containerRef, canvasRef);
+
+      }
+      catch (e) {
+        console.error(e);
+      }
     }
     loadPdf();
   }, [FileId]);
 
 
   useEffect(() => {
-    if (!containerRef.current || currentPage === 0) return;
+    if (!FileId || currentPage === 0) return;
     
     // Add a small delay to ensure container has proper dimensions
     const timer = setTimeout(async () => {
       const response = await fetch(`${apiUrl}/pdf/${FileId}`);
       loadPage(response, FileId, currentPage, containerRef, canvasRef);
-    }, 100);
+    }, 50);
     
     return () => clearTimeout(timer);
   }, [currentPage, FileId]);
@@ -63,16 +74,14 @@ function AIPDFViewport({ FileId }) {
   const handleNextPage = async () => {
     const response = await fetch(`${apiUrl}/pdf/${FileId}/Next`);
 
-    // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Next`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
-    await loadPage(response, FileId, 1, containerRef, canvasRef);
+    // await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev + 1))
   }
   const handlePrevPage = async () => {
     const response = await fetch(`${apiUrl}/pdf/${FileId}/Prev`);
-    // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
-    await loadPage(response, FileId, 1, containerRef, canvasRef);
+    // await loadPage(response, FileId, 1, containerRef, canvasRef);
     setCurrentPage(prev => Math.max(1, prev - 1))
   }
 
@@ -161,7 +170,7 @@ async function loadPage(response, FileId, pageNumber, containerRef, canvasRef) {
     }
     
     const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
-    const page = await pdf.getPage(1);
+    const page = await pdf.getPage(pageNumber);
     
     await renderPage(page, containerRef, canvasRef);
   }
@@ -185,7 +194,7 @@ async function renderPage(page, containerRef, canvasRef) {
       console.error("Container has no dimensions");
       return;
     }
-
+    //Setting up canvas
     const PRINT_RESOLUTION = 250;
     const PRINT_UNITS = PRINT_RESOLUTION / 72.0;
 
