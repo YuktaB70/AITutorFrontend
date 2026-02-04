@@ -22,7 +22,7 @@ function UploadPdf() {
             //     method: "POST",
             //     body: formData
             //   });
-              const response = await fetch(`http://${apiUrl}/pdf/uploadpdf`, {
+              const response = await fetch(`https://${apiUrl}/pdf/uploadpdf`, {
                 method: "POST",
                 body: formData
               });
@@ -59,7 +59,7 @@ function UploadPdf() {
               //   method: "POST",
               //   body: formData
               // });
-                const response = await fetch(`http://${apiUrl}/pdf/uploadpdf`, {
+                const response = await fetch(`https://${apiUrl}/pdf/uploadpdf`, {
                     method: "POST",
                     body: formData
                 });
