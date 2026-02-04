@@ -6,7 +6,7 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 //localhost:8090
-const apiUrl = "https://aitutor-backend-pdf.onrender.com/";
+const apiUrl = "aitutor-backend-pdf.onrender.com";
 function UploadPdf() {
     const [file, setFile] = useState(null);
     const [fileId, setId] = useState(null);
