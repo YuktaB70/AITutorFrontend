@@ -12,7 +12,7 @@ const apiUrl = "aitutor-backend-pdf.onrender.com";
 function AIPDFViewport({ FileId }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [showFlashCard, setFlashCard]  = useState(false);
+  // const [showFlashCard, setFlashCard]  = useState(false);
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -67,13 +67,13 @@ function AIPDFViewport({ FileId }) {
     setCurrentPage(prev => Math.max(1, prev - 1))
   }
 
-  const handleFlashCardGen = async () => {
-    setFlashCard(true);
-  }
+  // const handleFlashCardGen = async () => {
+  //   setFlashCard(true);
+  // }
   
-  const handleOnDeleteFlashCard = () => {
-    setFlashCard(false);
-  }
+  // const handleOnDeleteFlashCard = () => {
+  //   setFlashCard(false);
+  // }
   return (
     <div>
     {totalPages ? (
