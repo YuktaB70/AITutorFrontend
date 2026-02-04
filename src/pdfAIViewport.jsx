@@ -5,7 +5,7 @@ import pdfjsWorker from "pdfjs-dist/build/pdf.worker?url";
 import { Rnd } from "react-rnd";
 import AIChatBox from "./AIChatBox";
 import FlashCard  from "./FlashCard";
-import questionIcon from "./assets/icons8-question-60.png";
+// import questionIcon from "./assets/icons8-question-60.png";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 const apiUrl = "aitutor-backend-pdf.onrender.com";
@@ -21,7 +21,7 @@ function AIPDFViewport({ FileId }) {
     const loadPdf = async () => {
       const res = await fetch(`http://${apiUrl}/pdf/${FileId}/metadata`);
       const response = await fetch(`http://${apiUrl}/pdf/${FileId}`);
-
+      
       // const res = await fetch(`http://localhost:8090/pdf/${FileId}/metadata`);
       // const response = await fetch(`http://localhost:8090/pdf/${FileId}`);
 
@@ -52,7 +52,7 @@ function AIPDFViewport({ FileId }) {
   }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
-    const response = await fetch(`http://${apiUrl}/pdf/${FileId}/Next`);
+    const response = await fetch(`https://${apiUrl}/pdf/${FileId}/Next`);
 
     // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Next`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
@@ -60,7 +60,7 @@ function AIPDFViewport({ FileId }) {
     setCurrentPage(prev => Math.max(1, prev + 1))
   }
   const handlePrevPage = async () => {
-    const response = await fetch(`http://${apiUrl}/pdf/${FileId}/Prev`);
+    const response = await fetch(`https://${apiUrl}/pdf/${FileId}/Prev`);
 
     // const response = await fetch(`http://localhost:8090/pdf/${FileId}/Prev`);
     if (!response.ok) throw new Error("Failed to fetch PDF page");
