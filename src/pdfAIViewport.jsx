@@ -40,16 +40,17 @@ function AIPDFViewport({ FileId }) {
   }, [FileId]);
 
 
-  // useEffect(() => {
-  //   if (!containerRef.current || currentPage === 0) return;
+  useEffect(() => {
+    if (!containerRef.current || currentPage === 0) return;
     
-  //   // Add a small delay to ensure container has proper dimensions
-  //   const timer = setTimeout(() => {
-  //     loadPage(FileId, currentPage, containerRef, canvasRef);
-  //   }, 100);
+    // Add a small delay to ensure container has proper dimensions
+    const timer = setTimeout(async () => {
+      const response = await fetch(`${apiUrl}/pdf/${FileId}`);
+      loadPage(response, FileId, currentPage, containerRef, canvasRef);
+    }, 100);
     
-  //   return () => clearTimeout(timer);
-  // }, [currentPage, FileId]);
+    return () => clearTimeout(timer);
+  }, [currentPage, FileId]);
   
   const handleNextPage = async () => {
     const response = await fetch(`${apiUrl}/pdf/${FileId}/Next`);
