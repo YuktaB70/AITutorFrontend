@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./FlashCard.css";
 
-const apiUrl = "localhost:8090";
+const apiUrl = "aitutor-backend-pdf.onrender.com";
 
 function FlashCard({ onDelete, fileId }) {
     const [currentQuestion, setCurrentQuestion] = useState(0);
